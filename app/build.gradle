@@ -4,7 +4,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
   compileSdkVersion 24
-  buildToolsVersion "24.0.2"
+  buildToolsVersion "24.0.3"
   defaultConfig {
     applicationId "com.pratamawijaya.simpanlink"
     minSdkVersion 15
@@ -37,6 +37,12 @@ dependencies {
   testCompile 'junit:junit:4.12'
   apt 'com.jakewharton:butterknife-compiler:8.4.0'
   compile 'com.android.support:design:24.2.1'
+  compile 'org.jsoup:jsoup:1.9.2'
+  compile 'io.reactivex:rxandroid:1.2.1'
+  // Because RxAndroid releases are few and far between, it is recommended you also
+  // explicitly depend on RxJava's latest version for bug fixes and new features.
+  compile 'io.reactivex:rxjava:1.1.6'
+  compile 'com.jakewharton.timber:timber:4.3.1'
 }
 
 

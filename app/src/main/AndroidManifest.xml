@@ -3,7 +3,9 @@
     package="com.pratamawijaya.simpanlink">
 
   <uses-permission android:name="android.permission.INTERNET"/>
+
   <application
+      android:name=".apps.SimpanLinkApplication"
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
@@ -17,6 +19,13 @@
       </intent-filter>
     </activity>
     <activity android:name=".presentation.ui.home.HomeActivity">
+    </activity>
+    <activity android:name=".presentation.ui.add.AddLinkActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+      </intent-filter>
     </activity>
   </application>
 
