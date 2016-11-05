@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +47,9 @@ public class AddLinkActivity extends AppCompatActivity implements AddLinkView {
   private void handleShareableLink(Intent intent) {
     String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
     if (sharedText != null) {
+      if (!TextUtils.isEmpty(etInputLink.getText().toString())) {
+        etInputLink.setText("");
+      }
       etInputLink.setText(sharedText);
     }
   }
@@ -74,5 +78,9 @@ public class AddLinkActivity extends AppCompatActivity implements AddLinkView {
 
   @Override public void hideLoading() {
     progressDialog.dismiss();
+  }
+
+  @Override public void saveSuccess() {
+    Snackbar.make(parentView, "Sukses", Snackbar.LENGTH_SHORT).show();
   }
 }

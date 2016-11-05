@@ -13,4 +13,6 @@ public interface AddLinkView {
   void showLoading();
 
   void hideLoading();
+
+  void saveSuccess();
 }

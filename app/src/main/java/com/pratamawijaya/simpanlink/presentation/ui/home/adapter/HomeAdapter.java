@@ -6,5 +6,6 @@ package com.pratamawijaya.simpanlink.presentation.ui.home.adapter;
  * Project Name : SimpanLink
  */
 
-public class HomeAdapter {
+public class HomeAdapter{
+
 }

@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pratamawijaya.simpanlink.R;
 import com.pratamawijaya.simpanlink.presentation.ui.home.HomeActivity;
 
@@ -33,11 +35,14 @@ public class LoginActivity extends AppCompatActivity
   private GoogleApiClient googleApiClient;
   private FirebaseAuth firebaseAuth;
   private FirebaseAuth.AuthStateListener authStateListener;
+  private DatabaseReference databaseReference;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
+
+    databaseReference = FirebaseDatabase.getInstance().getReference();
 
     setupGoogleApiLogin();
     setupFirebaseSignIn();

@@ -1,10 +1,14 @@
 package com.pratamawijaya.simpanlink.presentation.ui.add.presenter;
 
 import android.text.TextUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pratamawijaya.simpanlink.data.entity.Article;
 import com.pratamawijaya.simpanlink.presentation.ui.add.AddLinkView;
+import java.util.HashMap;
+import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -25,11 +29,15 @@ import timber.log.Timber;
 public class AddLinkPresenter {
   private AddLinkView view;
   private DatabaseReference databaseReference;
+  private FirebaseAuth firebaseAuth;
+  private FirebaseUser firebaseUser;
   private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
   public AddLinkPresenter(AddLinkView view) {
     this.view = view;
     databaseReference = FirebaseDatabase.getInstance().getReference();
+    firebaseAuth = FirebaseAuth.getInstance();
+    firebaseUser = firebaseAuth.getCurrentUser();
   }
 
   public void onDetachView() {
@@ -54,6 +62,7 @@ public class AddLinkPresenter {
 
             @Override public void onError(Throwable e) {
               Timber.e("onError() :  %s", e.getLocalizedMessage());
+              view.hideLoading();
               view.showError(e.getLocalizedMessage());
             }
 
@@ -61,6 +70,14 @@ public class AddLinkPresenter {
               view.hideLoading();
               Timber.d("onNext() :  %s", article.getTitle());
               Timber.d("onNext() :  %s", article.getImage());
+
+              String key = databaseReference.child("articles").push().getKey();
+              Map<String, Object> postValues = article.toMap();
+              Map<String, Object> childUpdates = new HashMap<>();
+
+              childUpdates.put("/articles/" + key, postValues);
+              databaseReference.updateChildren(childUpdates);
+              view.saveSuccess();
             }
           }));
     } else {
@@ -105,7 +122,11 @@ public class AddLinkPresenter {
           Timber.d("call() : img %s", img);
 
           if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(img)) {
-            subscriber.onNext(new Article.Builder().title(title).image(img).url(URL).build());
+            subscriber.onNext(new Article.Builder().uId(firebaseUser.getUid())
+                .title(title)
+                .image(img)
+                .url(URL)
+                .build());
             subscriber.onCompleted();
           } else {
             subscriber.onError(new Throwable("Empty title or img"));
