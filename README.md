@@ -1,0 +1,4 @@
+# Firebase Apps
+
+# License
+WTFPL
