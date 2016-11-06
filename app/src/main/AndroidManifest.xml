@@ -23,9 +23,13 @@
     <activity android:name=".presentation.ui.add.AddLinkActivity">
       <intent-filter>
         <action android:name="android.intent.action.SEND"/>
+
         <category android:name="android.intent.category.DEFAULT"/>
+
         <data android:mimeType="text/plain"/>
       </intent-filter>
+    </activity>
+    <activity android:name=".presentation.ui.detail.ArticleDetailActivity">
     </activity>
   </application>
 

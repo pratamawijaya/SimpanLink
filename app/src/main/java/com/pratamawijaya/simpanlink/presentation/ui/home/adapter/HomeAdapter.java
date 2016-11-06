@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.pratamawijaya.simpanlink.R;
 import com.pratamawijaya.simpanlink.data.entity.Article;
+import com.pratamawijaya.simpanlink.presentation.model.event.HomeArcticleClickEvent;
 import com.squareup.picasso.Picasso;
 import java.util.List;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -46,15 +49,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
     @BindView(R.id.imgArticle) ImageView img;
     @BindView(R.id.tvTitle) TextView title;
+    @BindView(R.id.tvHost) TextView host;
+    @BindView(R.id.containerHomeArticle) RelativeLayout containerHomeArticle;
 
     public HomeHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
     }
 
-    public void bindItem(Article article) {
+    public void bindItem(final Article article) {
       title.setText(article.getTitle());
+      host.setText(article.getHost());
       Picasso.with(context).load(article.getImage()).into(img);
+      containerHomeArticle.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          EventBus.getDefault().post(new HomeArcticleClickEvent(article));
+        }
+      });
     }
   }
 }

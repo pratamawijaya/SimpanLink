@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerHomeArticle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_horizontal_margin"
@@ -20,6 +22,15 @@
       android:layout_toRightOf="@id/imgArticle"
       android:fontFamily="sans-serif-light"
       android:textSize="16sp"
+      tools:text="Title"
+      />
+  <TextView
+      android:id="@+id/tvHost"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/tvTitle"
+      android:layout_marginTop="4dp"
+      android:layout_toRightOf="@id/imgArticle"
       />
 
 </RelativeLayout>

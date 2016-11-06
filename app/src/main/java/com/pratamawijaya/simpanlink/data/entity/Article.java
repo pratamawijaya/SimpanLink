@@ -1,5 +1,8 @@
 package com.pratamawijaya.simpanlink.data.entity;
 
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +12,7 @@ import java.util.Map;
  * Project Name : SimpanLink
  */
 
-public class Article {
+public class Article implements Parcelable {
   private String title;
   private String description;
   private String body;
@@ -18,6 +21,14 @@ public class Article {
   private String uId;
 
   public Article() {
+  }
+
+  public Uri getUri() {
+    return Uri.parse(url);
+  }
+
+  public String getHost() {
+    return getUri().getHost();
   }
 
   public String getuId() {
@@ -131,4 +142,36 @@ public class Article {
     result.put("image", image);
     return result;
   }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.title);
+    dest.writeString(this.description);
+    dest.writeString(this.body);
+    dest.writeString(this.image);
+    dest.writeString(this.url);
+    dest.writeString(this.uId);
+  }
+
+  protected Article(Parcel in) {
+    this.title = in.readString();
+    this.description = in.readString();
+    this.body = in.readString();
+    this.image = in.readString();
+    this.url = in.readString();
+    this.uId = in.readString();
+  }
+
+  public static final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {
+    @Override public Article createFromParcel(Parcel source) {
+      return new Article(source);
+    }
+
+    @Override public Article[] newArray(int size) {
+      return new Article[size];
+    }
+  };
 }
