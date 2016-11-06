@@ -7,6 +7,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pratamawijaya.simpanlink.data.entity.Article;
 import com.pratamawijaya.simpanlink.presentation.ui.home.HomeView;
+import java.util.ArrayList;
+import java.util.List;
 import timber.log.Timber;
 
 /**
@@ -27,12 +29,14 @@ public class HomePresenter {
   public void getLink() {
     databaseReference.child("articles").addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        List<Article> articles = new ArrayList<Article>();
         for (DataSnapshot data : dataSnapshot.getChildren()) {
           Article article = data.getValue(Article.class);
           Timber.d("onDataChange() :  %s", article.getTitle());
           Timber.d("onDataChange() :  %s", article.getImage());
-          view.setArticle(article);
+          articles.add(article);
         }
+        view.setArticle(articles);
       }
 
       @Override public void onCancelled(DatabaseError databaseError) {

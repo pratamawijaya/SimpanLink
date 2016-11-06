@@ -1,41 +1,50 @@
 package com.pratamawijaya.simpanlink.presentation.ui.home;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.pratamawijaya.simpanlink.BR;
 import com.pratamawijaya.simpanlink.R;
 import com.pratamawijaya.simpanlink.data.entity.Article;
-import com.pratamawijaya.simpanlink.presentation.model.ArticleViewModel;
 import com.pratamawijaya.simpanlink.presentation.ui.add.AddLinkActivity;
+import com.pratamawijaya.simpanlink.presentation.ui.home.adapter.HomeAdapter;
 import com.pratamawijaya.simpanlink.presentation.ui.home.presenter.HomePresenter;
 import java.util.ArrayList;
 import java.util.List;
-import timber.log.Timber;
 
 public class HomeActivity extends AppCompatActivity
     implements SearchView.OnQueryTextListener, HomeView {
 
   private static final int ADD_LINK = 1;
 
+  @BindView(R.id.rvHome) RecyclerView recyclerView;
+
   private HomePresenter presenter;
-  private List<ArticleViewModel> articleViewModels;
+  private HomeAdapter homeAdapter;
+  private List<Article> articles;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    ViewDataBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-    articleViewModels = new ArrayList<>();
-    binding.setVariable(BR.model, new HomeActivityModel(articleViewModels));
+    setContentView(R.layout.activity_home);
     ButterKnife.bind(this);
+
+    setupRecyclerView();
 
     presenter = new HomePresenter(this);
     presenter.getLink();
+  }
+
+  private void setupRecyclerView() {
+    articles = new ArrayList<>();
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    homeAdapter = new HomeAdapter(this, articles);
+    recyclerView.setAdapter(homeAdapter);
   }
 
   @OnClick(R.id.fabHomeAdd) void addLinkClick() {
@@ -64,9 +73,9 @@ public class HomeActivity extends AppCompatActivity
     return false;
   }
 
-  @Override public void setArticle(Article article) {
-    Timber.d("setArticle() :add title  %s", article.getTitle());
-    articleViewModels.add(
-        new ArticleViewModel.Builder(article.getTitle(), article.getImage()).build());
+  @Override public void setArticle(List<Article> articles) {
+    if (this.articles.size() > 0) articles.clear();
+    this.articles.addAll(articles);
+    homeAdapter.notifyDataSetChanged();
   }
 }

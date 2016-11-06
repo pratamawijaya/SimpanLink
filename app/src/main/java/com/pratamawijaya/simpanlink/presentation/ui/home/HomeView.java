@@ -1,6 +1,7 @@
 package com.pratamawijaya.simpanlink.presentation.ui.home;
 
 import com.pratamawijaya.simpanlink.data.entity.Article;
+import java.util.List;
 
 /**
  * Created by Pratama Nur Wijaya
@@ -9,5 +10,5 @@ import com.pratamawijaya.simpanlink.data.entity.Article;
  */
 
 public interface HomeView {
-  void setArticle(Article article);
+  void setArticle(List<Article> article);
 }

@@ -5,12 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pratamawijaya.simpanlink.presentation.ui.home.HomeActivity"
     >
-  <data>
-    <variable
-        name="model"
-        type="com.pratamawijaya.simpanlink.presentation.ui.home.HomeActivityModel"
-        />
-  </data>
   <RelativeLayout
       android:id="@+id/activity_home"
       android:layout_width="match_parent"
@@ -20,9 +14,6 @@
         android:id="@+id/rvHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        bind:itemBindingId="@{model.itemBindingId}"
-        bind:itemLayout="@{@layout/item_homearticle}"
-        bind:items="@{model.items}"
         />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabHomeAdd"
